@@ -32,7 +32,7 @@ public class SecurityConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOriginPattern("http://15.207.16.25:80"); // ✅ your frontend origin
+        config.addAllowedOriginPattern("http://15.207.16.25"); // ✅ your frontend origin
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);
