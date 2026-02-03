@@ -1,0 +1,25 @@
+name: Deployment of SpringBoot
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: applboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_IP_EC2 }}
+          username: ec2-user
+          key: ${{ secrets.SSH_KEY_EC2 }}
+          port: 22
+          script: |
+            cd /home/ec2/ExampleSpringBoot
+            git pull
+            mvn package -DskipTests
+            sudo systemctl stop exampleBackend || true
+            sudo cp ./target/exampleBackend-0.0.1.jar /opt/exampleBackend/
+            sudo systemctl start exampleBackend
+
